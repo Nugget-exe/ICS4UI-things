@@ -440,14 +440,8 @@ public class BasicMenuGUI extends JFrame {
                 //things
                 try {
                     File file = new File("C:\\Users\\Henry\\.vscode\\ICS4UI things\\Assignment3\\1000record.csv");
-                    Scanner filescanner = new Scanner(file);
-                    if (filescanner.hasNextLine()) {// skip the header line
-                        filescanner.nextLine();
-        
-                    }
-                    
+                    Scanner filescanner = new Scanner(System.in);
                     filescanner.close();
-                    
 
                 } catch (FileNotFoundException f) {
                     f.printStackTrace();
