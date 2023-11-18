@@ -429,19 +429,21 @@ public class BasicMenuGUI extends JFrame {
                 JFrame newFrame = new JFrame("this is a new frame");
 
                 JButton quitbutton = new JButton("Click here to go back to main menu");
-
+                /*
+                 * JPanel panel = new JPanel();
+                 * panel.setBounds(0, 0, 900, 900);
+                 * JTable jtable = new JTable();// use this to display CSV
+                 * JScrollPane scroll = new JScrollPane(jtable);
+                 * panel.add(scroll);
+                 * newFrame.add(panel);
+                 */
                 String[] row = new String[9];
-                newFrame.setSize(900, 900);
-                JPanel panel = new JPanel();
-                panel.setBounds(0, 0, 900, 900);
-                JTable jtable = new JTable();// use this to display CSV
-                JScrollPane scroll = new JScrollPane(jtable);
-                panel.add(scroll);
-                newFrame.add(panel);
+                newFrame.setSize(1000, 1000);
 
                 // things
                 try {
-                    File file = new File("C:\\Users\\Henry\\.vscode\\ICS4UI things\\Assignment3\\1000record.csv");
+                    File file = new File(
+                            "C:\\Users\\Henry\\.vscode\\ICS4UI\\ICS4UI-things\\Assignment3\\1000record.csv");
                     Scanner filescanner = new Scanner(file);
 
                     if (filescanner.hasNextLine()) {
@@ -451,23 +453,22 @@ public class BasicMenuGUI extends JFrame {
 
                     ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();
 
-
                     while (filescanner.hasNextLine()) {
                         int i = 0;
                         String line = filescanner.nextLine();
                         String[] parts = line.split(",(?=([^\\\"]*\\\"[^\\\"]*\\\")*[^\\\"]*$)");// https://stackoverflow.com/questions/15738918/splitting-a-csv-file-with-quotes-as-text-delimiter-using-string-split/15905916#15905916
 
                         if (parts.length == 9) {
-/* 
-                            String Userif = parts[1].trim();
-                            String FName = parts[2].trim();
-                            String LName = parts[3].trim();
-                            String sex = parts[4].trim();
-                            String Email = parts[5].trim();
-                            String Phone = parts[6].trim();
-                            String DoB = parts[7].trim();
-                            String job = parts[8].trim();
-
+                            /*
+                             * String Userif = parts[1].trim();
+                             * String FName = parts[2].trim();
+                             * String LName = parts[3].trim();
+                             * String sex = parts[4].trim();
+                             * String Email = parts[5].trim();
+                             * String Phone = parts[6].trim();
+                             * String DoB = parts[7].trim();
+                             * String job = parts[8].trim();
+                             */
                             ArrayList<String> values = new ArrayList<String>();
 
                             Collections.addAll(values, parts);
@@ -476,18 +477,36 @@ public class BasicMenuGUI extends JFrame {
 
                         }
                     }
-                    //converting arraylist to array
+                    // converting arraylist to array
                     String[][] newarray = new String[array.size()][9];
-                    for(int i = 0;i<array.size();i++){
-                        for (int j =0; j<array.get(i).size();j++) {
-                            newarray[i][j]=array.get(i).get(j);
+                    for (int i = 0; i < array.size(); i++) {
+                        for (int j = 0; j < array.get(i).size(); j++) {
+                            newarray[i][j] = array.get(i).get(j);
                         }
 
                     }
 
+                    String[] col = { "index", "UserID", "Fname", "LName", "Sex", "Email", "phone", "DoB", "job" };
+                    System.out.println(Arrays.deepToString(newarray));// debugging
+
+                    Searchandsort.mergesort(newarray, 0, newarray.length - 1, 5);
+
+                    //JPanel panel = new JPanel();
+                    //panel.setBounds(0, 0, 900, 900);
+                    JTable jtable = new JTable(newarray,col);// use this to display CSV
+                    JScrollPane scroll = new JScrollPane(jtable);
+                    
+                    //jtable.add(scroll);
+
+                    newFrame.add(quitbutton, BorderLayout.PAGE_END);
+                    JButton search = new JButton("Search for a thing");
+                    newFrame.add(search, BorderLayout.PAGE_START);
 
 
-                    System.out.println(Arrays.deepToString(newarray));//debugging
+                    newFrame.add(scroll);
+
+                    //panel.add(scroll);
+                    //newFrame.add(panel);
 
                     filescanner.close();
 

@@ -21,7 +21,15 @@ public class Searchandsort {
 
         
 
-        mergesort(test, 0, test.length-1, 2);
+        quickSort(test, 0, test.length-1, 0);
+
+        int[] theanswer = Search2D(test, "f", 1);
+
+
+        System.out.println("Element found at index: " + Arrays.toString(theanswer));
+
+        
+
 
         System.out.println(Arrays.deepToString(test));
 
@@ -192,23 +200,33 @@ public class Searchandsort {
 
     //-------------------Searching----------------//
 
-    public static int binarySearch(String[] list, String target) {
-        int left = 0;
-        int right = list.length - 1;
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
-            int comparison = list[mid].compareTo(target);
-            if (comparison == 0) {
-                return mid; // String found.
-            } // end if find midpoint
-            if (comparison < 0) {
-                left = mid + 1;
+    //based on https://www.geeksforgeeks.org/searching-algorithms-for-a-2d-arrays-matrix/ 2darray search
+
+    public static int[] Search2D(String[][] arr, String target, int cindex) {
+        int r = 0;
+        int c = arr[0].length - 1; // Start from the top right corner
+    
+        while (r < arr.length && c >= 0) {
+            
+            
+            if (arr[r][cindex].equals(target)) {
+                return new int[]{r, cindex}; // Element found at row, cindex
+            } else if (arr[r][cindex].compareTo(target) > 0) {
+                c--; // Move left
             } else {
-                right = mid - 1;
-            } // end if check both halves
-        } // end while
-        return -1; // Element not found.
+                r++; // Move down
+            }
+            
+        }
+        // Element not found
+        return new int[]{-1, -1};
     }
+
+   
+    
+
+    
+   
 
     
 
