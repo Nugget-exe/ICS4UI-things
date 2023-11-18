@@ -1,12 +1,16 @@
 package Assignment3;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Vector;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -114,8 +118,8 @@ public class BasicMenuGUI extends JFrame {
                     newframe.setSize(400, 300);
 
                     JPanel newlayout = new JPanel();
-                    JLabel money = new JLabel("Total money in cheuqing account: "+ moneycacc);
-                    JLabel savingsmoney = new JLabel("Total money in savings: "+moneysav);
+                    JLabel money = new JLabel("Total money in cheuqing account: " + moneycacc);
+                    JLabel savingsmoney = new JLabel("Total money in savings: " + moneysav);
 
                     newlayout.setLayout(new BoxLayout(newlayout, BoxLayout.LINE_AXIS)); // https://docs.oracle.com/javase/tutorial/uiswing/layout/box.html
 
@@ -154,17 +158,12 @@ public class BasicMenuGUI extends JFrame {
                                 if (message != null) {
                                     double amount = Double.parseDouble(message);
                                     thing.addmoney(amount);
-                                   
 
                                     if (amount >= moneycacc) {
                                         moneycacc += amount;
-                                        money.setText("total money in C account "+ Double.toString(moneycacc));
+                                        money.setText("total money in C account " + Double.toString(moneycacc));
 
                                     }
-
-                                    
-                                    
-                                    
 
                                 } else {
                                     JOptionPane.showMessageDialog(null, "Cant do that");
@@ -189,14 +188,11 @@ public class BasicMenuGUI extends JFrame {
                                     double amt = Double.parseDouble(input);
                                     t.addmoney(amt);
 
-                                    
-
                                     if (amt >= moneysav) {
                                         moneysav += amt;
-                                        savingsmoney.setText("total money in S account "+Double.toString(moneysav));
+                                        savingsmoney.setText("total money in S account " + Double.toString(moneysav));
 
                                     }
-                                    
 
                                 } else {
                                     JOptionPane.showMessageDialog(null, "Cant do that");
@@ -222,14 +218,13 @@ public class BasicMenuGUI extends JFrame {
                                 if (message != null) {
                                     double amount = Double.parseDouble(message);
                                     t.takemoners(amount);
-                                   
 
                                     if (amount <= moneysav) {
-                                        moneysav-=amount;
-                                        savingsmoney.setText("total money in S account "+Double.toString(moneysav));
+                                        moneysav -= amount;
+                                        savingsmoney.setText("total money in S account " + Double.toString(moneysav));
 
                                     }
-                                    
+
                                 } else {
                                     JOptionPane.showMessageDialog(null, "cant do that");
                                 }
@@ -299,15 +294,12 @@ public class BasicMenuGUI extends JFrame {
                                 if (message != null) {
                                     double amount = Double.parseDouble(message);
                                     thing.takemoners(amount);
-                                    
 
                                     if (amount <= moneycacc) {
-                                        moneycacc-=amount;
-                                        money.setText("total money in C account "+Double.toString(moneycacc));
-
+                                        moneycacc -= amount;
+                                        money.setText("total money in C account " + Double.toString(moneycacc));
 
                                     }
-                                    
 
                                 } else {
                                     JOptionPane.showMessageDialog(null, "Cant do that");
@@ -321,9 +313,6 @@ public class BasicMenuGUI extends JFrame {
                         }
                     });
 
-                    
-
-                    
                     newframe.add(newlayout, BorderLayout.PAGE_END);
                     newframe.add(buttonLayout, BorderLayout.CENTER);
 
@@ -437,10 +426,69 @@ public class BasicMenuGUI extends JFrame {
                  */
 
             } else if (questionNumber == 4) {// mkyong.com/swing/java-swing-joptionpane-showinputdialog-example/
-                //things
+                JFrame newFrame = new JFrame("this is a new frame");
+
+                JButton quitbutton = new JButton("Click here to go back to main menu");
+
+                String[] row = new String[9];
+                newFrame.setSize(900, 900);
+                JPanel panel = new JPanel();
+                panel.setBounds(0, 0, 900, 900);
+                JTable jtable = new JTable();// use this to display CSV
+                JScrollPane scroll = new JScrollPane(jtable);
+                panel.add(scroll);
+                newFrame.add(panel);
+
+                // things
                 try {
                     File file = new File("C:\\Users\\Henry\\.vscode\\ICS4UI things\\Assignment3\\1000record.csv");
-                    Scanner filescanner = new Scanner(System.in);
+                    Scanner filescanner = new Scanner(file);
+
+                    if (filescanner.hasNextLine()) {
+                        filescanner.nextLine();
+
+                    }
+
+                    ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();
+
+
+                    while (filescanner.hasNextLine()) {
+                        int i = 0;
+                        String line = filescanner.nextLine();
+                        String[] parts = line.split(",(?=([^\\\"]*\\\"[^\\\"]*\\\")*[^\\\"]*$)");// https://stackoverflow.com/questions/15738918/splitting-a-csv-file-with-quotes-as-text-delimiter-using-string-split/15905916#15905916
+
+                        if (parts.length == 9) {
+/* 
+                            String Userif = parts[1].trim();
+                            String FName = parts[2].trim();
+                            String LName = parts[3].trim();
+                            String sex = parts[4].trim();
+                            String Email = parts[5].trim();
+                            String Phone = parts[6].trim();
+                            String DoB = parts[7].trim();
+                            String job = parts[8].trim();
+
+                            ArrayList<String> values = new ArrayList<String>();
+
+                            Collections.addAll(values, parts);
+
+                            array.add(values);
+
+                        }
+                    }
+                    //converting arraylist to array
+                    String[][] newarray = new String[array.size()][9];
+                    for(int i = 0;i<array.size();i++){
+                        for (int j =0; j<array.get(i).size();j++) {
+                            newarray[i][j]=array.get(i).get(j);
+                        }
+
+                    }
+
+
+
+                    System.out.println(Arrays.deepToString(newarray));//debugging
+
                     filescanner.close();
 
                 } catch (FileNotFoundException f) {
@@ -448,10 +496,7 @@ public class BasicMenuGUI extends JFrame {
 
                 }
 
-                
-                
-
-
+                newFrame.setVisible(true);
 
             } else {// probally shouldve used switch case
 

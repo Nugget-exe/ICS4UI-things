@@ -36,7 +36,7 @@ public class QuickSortStr {
     }// end public method quicksort
 
     public static void main(String[] args) {
-        String[] strings = {"apple", "banana", "grape", "date", "cherry","balls"};
+        String[] strings = {"apple", "banana", "grape", "date", "cherry","balls", "1-3"};
 
         // Apply Quick Sort to the array of strings
         int n = strings.length;

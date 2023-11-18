@@ -90,7 +90,7 @@ public class ReadwriteCSV {
             while (filescanner.hasNextLine()) {// read each line and split it using delimiter ,
 
                 String line = filescanner.nextLine();
-                String[] parts = line.split(",");
+                String[] parts = line.split(",(?=([^\\\"]*\\\"[^\\\"]*\\\")*[^\\\"]*$)");//https://stackoverflow.com/questions/15738918/splitting-a-csv-file-with-quotes-as-text-delimiter-using-string-split/15905916#15905916
 
                 if (parts.length == 3) {// if the line we're currently on has 3 parts(name,age,grade)
                     String Student = parts[0].trim();// I am trimming the first part that comes out, which is name
