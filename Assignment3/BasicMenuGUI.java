@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.Vector;
 import java.awt.event.ActionListener;
@@ -438,12 +439,12 @@ public class BasicMenuGUI extends JFrame {
                  * newFrame.add(panel);
                  */
                 String[] row = new String[9];
-                newFrame.setSize(1000, 1000);
+                newFrame.setSize(800, 800);
+                
 
                 // things
                 try {
-                    File file = new File(
-                            "C:\\Users\\Henry\\.vscode\\ICS4UI\\ICS4UI-things\\Assignment3\\1000record.csv");
+                    File file = new File("C:\\Users\\Henry\\.vscode\\ICS4UI things\\Assignment3\\1000record.csv");
                     Scanner filescanner = new Scanner(file);
 
                     if (filescanner.hasNextLine()) {
@@ -489,12 +490,13 @@ public class BasicMenuGUI extends JFrame {
                     String[] col = { "index", "UserID", "Fname", "LName", "Sex", "Email", "phone", "DoB", "job" };
                     System.out.println(Arrays.deepToString(newarray));// debugging
 
-                    Searchandsort.mergesort(newarray, 0, newarray.length - 1, 5);
+                    
+                    String choice = JOptionPane.showInputDialog(e)
 
                     //JPanel panel = new JPanel();
                     //panel.setBounds(0, 0, 900, 900);
                     JTable jtable = new JTable(newarray,col);// use this to display CSV
-                    JScrollPane scroll = new JScrollPane(jtable);
+                    JScrollPane scroll = new JScrollPane(jtable);// add scrolling
                     
                     //jtable.add(scroll);
 
@@ -502,8 +504,45 @@ public class BasicMenuGUI extends JFrame {
                     JButton search = new JButton("Search for a thing");
                     newFrame.add(search, BorderLayout.PAGE_START);
 
+                    quitbutton.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            newFrame.setVisible(false);// https://stackoverflow.com/questions/1234912/how-to-programmatically-close-a-jframe
+                            newFrame.dispose();// wedestroy the new jFRAMe
+                            
+                        }
+                    });
+
+                    search.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            try {
+                                String thingToSearch = JOptionPane.showInputDialog("Enter String value to search");
+                                String intotparse = JOptionPane.showInputDialog("Enter column index");
+                                int cindex = Integer.parseInt(intotparse);
+
+                                int[] theanswer = Searchandsort.Search2D(newarray, thingToSearch, cindex);
+
+                                JOptionPane.showMessageDialog(null, "Item found at " + Arrays.toString(theanswer));
+
+
+
+                            } catch (Exception h) {// when ur unsure of exception to throw put an generic exception block
+                                JOptionPane.showMessageDialog(null,"Something weird happened please try again");
+
+                            } 
+                            
+                        }
+                    });
+
+                    
+
+
+
+
 
                     newFrame.add(scroll);
+                    newFrame.setVisible(true);
 
                     //panel.add(scroll);
                     //newFrame.add(panel);
@@ -511,11 +550,12 @@ public class BasicMenuGUI extends JFrame {
                     filescanner.close();
 
                 } catch (FileNotFoundException f) {
-                    f.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "cant find file please try again");
+                    
 
                 }
 
-                newFrame.setVisible(true);
+                
 
             } else {// probally shouldve used switch case
 

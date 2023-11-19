@@ -20,10 +20,10 @@ public class Searchandsort {
         };
 
         
-
+        String thing = "f";
         quickSort(test, 0, test.length-1, 0);
 
-        int[] theanswer = Search2D(test, "f", 1);
+        int[] theanswer = Search2D(test, thing, 1);
 
 
         System.out.println("Element found at index: " + Arrays.toString(theanswer));
