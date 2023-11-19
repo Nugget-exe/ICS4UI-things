@@ -2,7 +2,6 @@ package Assignment3;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
@@ -15,6 +14,26 @@ import java.util.Vector;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+/* 
+Problem:
+ * Uhhh idk tbh
+ * We want to showcase our fancy sorts and how long they take for sorting a 1000 record csv, and along with that, show an example of recursion which accepts user input, and also show an example of poly morphrism(has buttons)
+ * 
+
+
+Given: I forgot  Due: Nov 20, 2023(Given extension)
+
+Testcases:
+-tried not putting the csv path in file
+- put in a string when it asked for a int
+- entered negative numbers in the bank account example
+- entered an index that does not exist
+-entered null fields
+-
+
+Author: Henry Lin
+Citations will be in code
+*/
 
 public class BasicMenuGUI extends JFrame {
 
@@ -22,7 +41,7 @@ public class BasicMenuGUI extends JFrame {
         // make the title of the menu and set its size
         setTitle("Basic Menu");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 600);
+        setSize(400, 600);//set the size
         setLocationRelativeTo(null);
 
         // Main panel with a blue background
@@ -381,6 +400,9 @@ public class BasicMenuGUI extends JFrame {
 
                     boolean[] vis = new boolean[adjj.size() + 1];
 
+                    
+                       
+
                     for (int node = 1; node < adjj.size() + 1; node++) {
                         if (vis[node] == false) {
                             recursion.findcycle(node, -1, adjj, vis);
@@ -395,8 +417,10 @@ public class BasicMenuGUI extends JFrame {
                     JButton exit = new JButton("Exit");
 
                     JLabel info = new JLabel("Nodes traversed: " + recursion.nodestraversed);
+                    JLabel moreinfo = new JLabel("Nodes with cycles "+ recursion.cycledetected);
 
                     outputFrame.add(info, BorderLayout.NORTH);
+                    outputFrame.add(moreinfo);
                     outputFrame.add(exit, BorderLayout.PAGE_END); // https://stackoverflow.com/questions/40420669/how-do-i-create-a-new-jframe
                     // and
                     // https://stackoverflow.com/questions/19572390/button-in-java-jframe-will-not-resize
@@ -440,11 +464,10 @@ public class BasicMenuGUI extends JFrame {
                  */
                 String[] row = new String[9];
                 newFrame.setSize(800, 800);
-                
 
                 // things
                 try {
-                    File file = new File("C:\\Users\\Henry\\.vscode\\ICS4UI things\\Assignment3\\1000record.csv");
+                    File file = new File("Assignment3\\1000record.csv");
                     Scanner filescanner = new Scanner(file);
 
                     if (filescanner.hasNextLine()) {
@@ -452,7 +475,7 @@ public class BasicMenuGUI extends JFrame {
 
                     }
 
-                    ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();
+                    ArrayList<ArrayList<String>> array = new ArrayList<ArrayList<String>>();//make a temp array called array to be converted later on
 
                     while (filescanner.hasNextLine()) {
                         int i = 0;
@@ -470,11 +493,12 @@ public class BasicMenuGUI extends JFrame {
                              * String DoB = parts[7].trim();
                              * String job = parts[8].trim();
                              */
-                            ArrayList<String> values = new ArrayList<String>();
+                            ArrayList<String> values = new ArrayList<String>();//temp arraylist to add contents of each line to the arraylist
 
-                            Collections.addAll(values, parts);
+                            Collections.addAll(values, parts);// do this to add parts to values
 
-                            array.add(values);
+                            array.add(values);// no need to explain here
+
 
                         }
                     }
@@ -486,19 +510,115 @@ public class BasicMenuGUI extends JFrame {
                         }
 
                     }
-
+                    //column names
                     String[] col = { "index", "UserID", "Fname", "LName", "Sex", "Email", "phone", "DoB", "job" };
-                    System.out.println(Arrays.deepToString(newarray));// debugging
+                    System.out.println(Arrays.deepToString(newarray));// debugging too lazy to get rid of
 
-                    
-                    String choice = JOptionPane.showInputDialog(e)
+                    String[] choices = new String[4];// this is used for JOptionPane choices
 
-                    //JPanel panel = new JPanel();
-                    //panel.setBounds(0, 0, 900, 900);
-                    JTable jtable = new JTable(newarray,col);// use this to display CSV
+                    choices[0] = "mergeSort";
+                    choices[1] = "Quicksort";
+                    choices[2] = "Bubblesort";
+                    choices[3] = "Selectionsort"; 
+                    // listed choices
+
+                    int reply = JOptionPane.showOptionDialog(null, "What sort to perform?",
+                            "Sort selection(rerun to choose another)", 0,
+                            JOptionPane.INFORMATION_MESSAGE, null, choices, null);
+                    // Switch case based on the value of button pressed
+                    switch (reply) {
+                        case 0:
+                            try {// put in try catch statment to catch arrayindex out of bounds erro and numberformatexceptions(too lazy to comment other near identical blocks)
+                                int message = Integer
+                                        .parseInt(JOptionPane.showInputDialog("Enter a column index to sort"));
+                                long startTimeMerge = System.nanoTime();
+                                Searchandsort.mergesort(newarray, 0, newarray.length - 1, message);
+                                long endTimeMerge = System.nanoTime();
+
+                                JOptionPane.showMessageDialog(null,
+                                        "your sort took " + (endTimeMerge - startTimeMerge) + " nanoseconds(a small number).");
+
+                            } catch (ArrayIndexOutOfBoundsException h) {
+                                JOptionPane.showMessageDialog(null, "Index out of bounds error try again");
+                                ;
+                            } catch (NumberFormatException h ) {
+                                JOptionPane.showMessageDialog(null, "TYPE IN A NUMBER PLEASE I JUST WANT TO GO TO UW AAAAAAAAAAAA");
+                                JOptionPane.showMessageDialog(null, "BTW rerun the question again to get the sorted CSV");
+                            }
+                            break;
+                        case 2:
+                            try {
+                                int message = Integer
+                                        .parseInt(JOptionPane.showInputDialog("Enter a column index to sort"));
+                                long startTimeB = System.currentTimeMillis();
+                                Searchandsort.bubbleSort(newarray, message);
+                                long endTimeB = System.currentTimeMillis();
+
+                                JOptionPane.showMessageDialog(null,
+                                        "your sort took " + (endTimeB - startTimeB) + " seconds.");
+
+                            } catch (ArrayIndexOutOfBoundsException h) {
+                                JOptionPane.showMessageDialog(null, "Index out of bounds error try again");
+                                ;
+                            } catch (NumberFormatException h ) {
+                                JOptionPane.showMessageDialog(null, "TYPE IN A NUMBER PLEASE I JUST WANT TO GO TO UW AAAAAAAAAAAA");
+                                JOptionPane.showMessageDialog(null, "BTW rerun the question again to get the sorted CSV");
+                            }
+                            break;
+
+                        case 1:// out of order cuz i did a funny
+                            try {
+                                int message = Integer
+                                        .parseInt(JOptionPane.showInputDialog("Enter a column index to sort"));
+                                long startTimeq = System.nanoTime();
+                                Searchandsort.quickSort(newarray, 0, newarray.length - 1, message);
+                                long endTimeq = System.nanoTime();
+
+                                JOptionPane.showMessageDialog(null,
+                                        "your sort took " + (endTimeq - startTimeq) + " nanoseconds.");
+
+                            } catch (ArrayIndexOutOfBoundsException h) {
+                                JOptionPane.showMessageDialog(null, "Index out of bounds error try again");
+                                ;
+                            } catch (NumberFormatException h ) {
+                                
+                                JOptionPane.showMessageDialog(null, "TYPE IN A NUMBER PLEASE I JUST WANT TO GO TO UW AAAAAAAAAAAA");
+                                JOptionPane.showMessageDialog(null, "BTW rerun the question again to get the sorted CSV");
+                            }
+                            break;
+
+                        case 3:
+                            try {
+                                int message = Integer
+                                        .parseInt(JOptionPane.showInputDialog("Enter a column index to sort"));
+                                long startTimeS = System.currentTimeMillis();
+                                Searchandsort.selectionSort(newarray, message);
+                                long endTimeS = System.currentTimeMillis();
+
+                                JOptionPane.showMessageDialog(null,
+                                        "your sort took " + (endTimeS - startTimeS) + " seconds.");
+
+                            } catch (ArrayIndexOutOfBoundsException h) {
+                                JOptionPane.showMessageDialog(null, "Index out of bounds error try again");
+                                ;
+                            } catch (NumberFormatException h ) {
+                                JOptionPane.showMessageDialog(null, "TYPE IN A NUMBER PLEASE I JUST WANT TO GO TO UW AAAAAAAAAAAA");
+                                JOptionPane.showMessageDialog(null, "BTW rerun the question again to get the sorted CSV");
+                            }
+                            break;
+    
+                        
+                        default:
+                        JOptionPane.showMessageDialog(null, "exit this JFrame and rerun to rerun the sort");
+
+                    }
+
+                    // JPanel panel = new JPanel();
+                    // panel.setBounds(0, 0, 900, 900);
+                    JTable jtable = new JTable(newarray, col);// use this to display CSV
                     JScrollPane scroll = new JScrollPane(jtable);// add scrolling
-                    
-                    //jtable.add(scroll);
+
+                    // jtable.add(scroll);
 
                     newFrame.add(quitbutton, BorderLayout.PAGE_END);
                     JButton search = new JButton("Search for a thing");
@@ -509,7 +629,7 @@ public class BasicMenuGUI extends JFrame {
                         public void actionPerformed(ActionEvent e) {
                             newFrame.setVisible(false);// https://stackoverflow.com/questions/1234912/how-to-programmatically-close-a-jframe
                             newFrame.dispose();// wedestroy the new jFRAMe
-                            
+
                         }
                     });
 
@@ -517,7 +637,7 @@ public class BasicMenuGUI extends JFrame {
                         @Override
                         public void actionPerformed(ActionEvent e) {
                             try {
-                                String thingToSearch = JOptionPane.showInputDialog("Enter String value to search");
+                                String thingToSearch = JOptionPane.showInputDialog("Enter String value to search(in the column you sorted)");
                                 String intotparse = JOptionPane.showInputDialog("Enter column index");
                                 int cindex = Integer.parseInt(intotparse);
 
@@ -525,37 +645,27 @@ public class BasicMenuGUI extends JFrame {
 
                                 JOptionPane.showMessageDialog(null, "Item found at " + Arrays.toString(theanswer));
 
+                            } catch (Exception h) {// when ur unsure of exception to throw put an generic exception
+                                                   // block
+                                JOptionPane.showMessageDialog(null, "Something weird happened please try again");
 
+                            }
 
-                            } catch (Exception h) {// when ur unsure of exception to throw put an generic exception block
-                                JOptionPane.showMessageDialog(null,"Something weird happened please try again");
-
-                            } 
-                            
                         }
                     });
-
-                    
-
-
-
-
 
                     newFrame.add(scroll);
                     newFrame.setVisible(true);
 
-                    //panel.add(scroll);
-                    //newFrame.add(panel);
+                    // panel.add(scroll);
+                    // newFrame.add(panel);
 
                     filescanner.close();
 
                 } catch (FileNotFoundException f) {
                     JOptionPane.showMessageDialog(null, "cant find file please try again");
-                    
 
                 }
-
-                
 
             } else {// probally shouldve used switch case
 

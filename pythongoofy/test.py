@@ -24,19 +24,19 @@ print(dist)
 
 
 #cycle detection
-vis = [0 for _ in range(6)]
+vis = [False  for _ in range(6)]
 # visited state can either be 0 - not visited, 1 - exploring, 2 - visited
 
 
 def dfs(node, parent):
-    vis[node] = 1
+    vis[node] = True
     for neigh in adj[node]:
         if neigh == parent: 
             continue # traversing back on an undirected edge is not a cycle
-        if vis[neigh] == 0:
+        if vis[neigh] == False:
             
             dfs(neigh, node)
-        elif vis[neigh] == 1:
+        elif vis[neigh] == True:
             print("Cycle detected at node " + str(neigh))
 
 
@@ -44,7 +44,7 @@ def dfs(node, parent):
 
 
 for node in range(0, 5):
-    if vis[node] == 0:
+    if vis[node] == False:
         dfs(node, -1)
 '''
 Enter a node connected to previous

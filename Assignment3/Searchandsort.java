@@ -21,7 +21,7 @@ public class Searchandsort {
 
         
         String thing = "f";
-        quickSort(test, 0, test.length-1, 0);
+        bubbleSort(test, 2);
 
         int[] theanswer = Search2D(test, thing, 1);
 
