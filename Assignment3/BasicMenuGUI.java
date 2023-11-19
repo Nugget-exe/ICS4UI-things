@@ -404,8 +404,9 @@ public class BasicMenuGUI extends JFrame {
                        
 
                     for (int node = 1; node < adjj.size() + 1; node++) {
-                        if (vis[node] == false) {
-                            recursion.findcycle(node, -1, adjj, vis);
+                        if (!vis[node] && recursion.findcycle(node, vis, -1, adjj)) {
+                            recursion.cycledetected.add("Cycle detected at: "+node);
+                            
                         }
 
                     }
@@ -437,7 +438,7 @@ public class BasicMenuGUI extends JFrame {
                     JOptionPane.showMessageDialog(null, "you cant do that run question 3 again");
 
                 } catch (ArrayIndexOutOfBoundsException h) {
-                    JOptionPane.showMessageDialog(null, h);
+                    JOptionPane.showMessageDialog(null, "Please try again(hint make sure first node starts at 1, and other nodes increment by 1)");
                 }
 
                 /*
