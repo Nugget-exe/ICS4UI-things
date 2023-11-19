@@ -73,10 +73,10 @@ public class Searchandsort {
 // using same logic above to sort 2d arrays using mergesort
     public static void mergesort(String[][] array, int left, int right, int cindex){
         if (left < right) {
-            int middle = left + (right - left) / 2;
-            mergesort(array, left, middle, cindex);
-            mergesort(array, middle + 1, right, cindex);
-            merge(array, left, middle, right, cindex);
+            int middle = left + (right - left) / 2;//find middle
+            mergesort(array, left, middle, cindex);//sort first half
+            mergesort(array, middle + 1, right, cindex);//sort right half
+            merge(array, left, middle, right, cindex);//merge
         } 
 
         
@@ -88,14 +88,16 @@ public class Searchandsort {
         String[][] L = Arrays.copyOfRange(array, left, middle + 1);
         String[][] R = Arrays.copyOfRange(array, middle + 1, right + 1);
 
-        int i = 0;
+        int i = 0;//make int i,j and k = 0 to be used in interating
         int j = 0;
         int k = left;
 
-        while (i < L.length && j < R.length) {
-            if (L[i][cindex].compareTo(R[j][cindex]) <= 0) {
+        //while
+
+        while (i < L.length && j < R.length) {//while i is less than the lenght of L and R
+            if (L[i][cindex].compareTo(R[j][cindex]) <= 0) {//compare l[i][cindex] to the right array, if its less than or eqaul right array, the put it in the array first  
                 array[k++] = L[i++];
-            } else {
+            } else {//else do opposite
                 array[k++] = R[j++];
             }
         }

@@ -3,32 +3,35 @@ import java.util.*;
 
 public class recursion {
 
-    public static ArrayList<Integer> nodestraversed = new ArrayList<Integer>();
+    public static ArrayList<Integer> nodestraversed = new ArrayList<Integer>();//public arrays so i can access them in main program file
     public static ArrayList<String> cycledetected = new ArrayList<>();
 
-    public static void dfs(int node, HashMap<Integer, ArrayList<Integer>> adj_list, boolean[] vis, int[] dist) {
-        for (int neigh : adj_list.get(node)) {
-            System.out.print(node + " ");
-            nodestraversed.add(node);
 
-            if (!vis[neigh]) {
-                vis[neigh] = true;
-                dist[neigh] = dist[node] + 1;
-                dfs(neigh, adj_list, vis, dist);
+    //dfs logic
+
+    public static void dfs(int node, HashMap<Integer, ArrayList<Integer>> adj_list, boolean[] vis, int[] dist) {
+        for (int neigh : adj_list.get(node)) {//for each neighbour in the hashmap
+            System.out.print(node + " ");//print the node
+            nodestraversed.add(node);// add node to nodes traversed
+
+            if (!vis[neigh]) {// if node is not visited(false)
+                vis[neigh] = true;// mark it as visited
+                dist[neigh] = dist[node] + 1;// distance of neigh is equal to distnode plus 1
+                dfs(neigh, adj_list, vis, dist);//recursively call dfs
             }
         }
     }
 
     public static boolean findcycle(int node, boolean visited[], int parent, HashMap<Integer, ArrayList<Integer>> adj_list) {
-        visited[node] = true;
-        for (int i : adj_list.get(node)) {
-            if (!visited[i]) {
-                if (findcycle(i, visited, node, adj_list))
-                    return true;
-            } else if (i != parent)
-                return true;
+        visited[node] = true;//mark node as visited
+        for (int i : adj_list.get(node)) {// iterating over adj_list
+            if (!visited[i]) {// if the node i is not visited
+                if (findcycle(i, visited, node, adj_list))// if findcycle is true
+                    return true;//return true
+            } else if (i != parent)//if i is not equal to parent
+                return true;//return true
         }
-        return false;
+        return false;//base case false
     }
 
     public static void main(String[] args) {
