@@ -1,17 +1,13 @@
 package Assignment3;
 
-import javax.sound.midi.MidiDevice.Info;
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.Vector;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -486,6 +482,7 @@ public class BasicMenuGUI extends JFrame {
                         // catch error(ie you started with 0 which is bad and smelly)
                     } catch (NullPointerException h) {
                         JOptionPane.showMessageDialog(null, "you typed a start node other than 1, try again");
+                    
                     }
 
                     // make a results screen*(really boring)
@@ -547,7 +544,7 @@ public class BasicMenuGUI extends JFrame {
                                     if (distance > 1) {
                                         JOptionPane.showMessageDialog(null,
                                                 "distance from start node to your target node is " + distance);
-                                    } else {//print if distance is -1
+                                    } else {// print if distance is -1
                                         JOptionPane.showMessageDialog(null,
                                                 "Node is unreachable i think from start node");
 
@@ -594,7 +591,8 @@ public class BasicMenuGUI extends JFrame {
 
                 JButton quitbutton = new JButton("Click here to go back to main menu");
 
-                JOptionPane.showMessageDialog(null, "If you make a mistake in choosing the col to sort by the csv will appear unsorted(you will be unable to search for anything but the index col)");
+                JOptionPane.showMessageDialog(null,
+                        "If you make a mistake in choosing the col to sort by the csv will appear unsorted(you will be unable to search for anything but the index col)");
                 /*
                  * JPanel panel = new JPanel();
                  * panel.setBounds(0, 0, 900, 900);
@@ -675,20 +673,20 @@ public class BasicMenuGUI extends JFrame {
                                  // numberformatexceptions(too lazy to comment other near identical blocks)
                                 int message = Integer
                                         .parseInt(JOptionPane.showInputDialog("Enter a column index to sort"));
-                                
-                                //get current time in nano seconds
-                                        long startTimeMerge = System.nanoTime();
+
+                                // get current time in nano seconds
+                                long startTimeMerge = System.nanoTime();
                                 Searchandsort.mergesort(newarray, 0, newarray.length - 1, message);
                                 long endTimeMerge = System.nanoTime();
-                                //get time after sort in nanoseconds
-//print time
+                                // get time after sort in nanoseconds
+                                // print time
                                 JOptionPane.showMessageDialog(null,
                                         "your sort took " + (endTimeMerge - startTimeMerge)
                                                 + " nanoseconds(a small number).");
 
                             } catch (ArrayIndexOutOfBoundsException h) {
                                 JOptionPane.showMessageDialog(null, "Index out of bounds error try again");
-                                ;
+                                
                             } catch (NumberFormatException h) {
                                 JOptionPane.showMessageDialog(null,
                                         "TYPE IN A NUMBER PLEASE I JUST WANT TO GO TO UW AAAAAAAAAAAA");
@@ -697,7 +695,7 @@ public class BasicMenuGUI extends JFrame {
                             }
                             break;
                         case 2:
-                            try {//same logic here
+                            try {// same logic here
                                 int message = Integer
                                         .parseInt(JOptionPane.showInputDialog("Enter a column index to sort"));
                                 long startTimeB = System.currentTimeMillis();
@@ -742,10 +740,11 @@ public class BasicMenuGUI extends JFrame {
                             break;
 
                         case 3:
-                            try {//same logic
+                            try {// same logic
                                 int message = Integer
                                         .parseInt(JOptionPane.showInputDialog("Enter a column index to sort"));
-                                long startTimeS = System.currentTimeMillis();//this is in milis because its not that fast
+                                long startTimeS = System.currentTimeMillis();// this is in milis because its not that
+                                                                             // fast
                                 Searchandsort.selectionSort(newarray, message);
                                 long endTimeS = System.currentTimeMillis();
 
@@ -791,15 +790,21 @@ public class BasicMenuGUI extends JFrame {
                     search.addActionListener(new ActionListener() {// add functionailty to search button
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            try {//enter a try statement to catch exceptions(what id user did something funny)
+                            try {// enter a try statement to catch exceptions(what id user did something funny)
                                 String thingToSearch = JOptionPane
                                         .showInputDialog("Enter String value to search(in the column you sorted)");
                                 String intotparse = JOptionPane.showInputDialog("Enter column index");
-                                int cindex = Integer.parseInt(intotparse);//parse the  col value into a int
+                                int cindex = Integer.parseInt(intotparse);// parse the col value into a int
 
-                                int[] theanswer = Searchandsort.Search2D(newarray, thingToSearch, cindex);//perform a search
+                                int[] theanswer = Searchandsort.Search2D(newarray, thingToSearch, cindex);// perform a
+                                                                                                          // search
 
-                                JOptionPane.showMessageDialog(null, "Item found at " + Arrays.toString(theanswer));// yay you found it or not(-1,-1)
+                                JOptionPane.showMessageDialog(null, "Item found at " + Arrays.toString(theanswer));// yay
+                                                                                                                   // you
+                                                                                                                   // found
+                                                                                                                   // it
+                                                                                                                   // or
+                                                                                                                   // not(-1,-1)
 
                             } catch (Exception h) {// when ur unsure of exception to throw put an generic exception
                                                    // block
@@ -825,7 +830,8 @@ public class BasicMenuGUI extends JFrame {
 
             } else {// probally shouldve used switch case
 
-                JOptionPane.showMessageDialog(null, "You selected Question " + questionNumber);// this is literally not going to happen
+                JOptionPane.showMessageDialog(null, "You selected Question " + questionNumber);// this is literally not
+                                                                                               // going to happen
             }
 
         }
